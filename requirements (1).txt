@@ -1,0 +1,7 @@
+transformers==4.57.6
+torch>=2.2,<3
+huggingface-hub<1
+accelerate>=0.30
+scipy>=1.11
+matplotlib>=3.8
+numpy>=1.26

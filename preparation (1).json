@@ -1,0 +1,29 @@
+{
+  "status": "DATA_PREPARED_MODEL_NOT_RUN",
+  "data_commit": "ab8684a667109f2a7345f4f89ab3b123e8d78e1f",
+  "seed": 42,
+  "n_per_group": 5,
+  "matching": "context-word bins and answer type; no topic matching",
+  "audit": {
+    "original": {
+      "raw_rows": 2713,
+      "repeated_question": 792,
+      "outside_context_word_range": 102,
+      "eligible_unique_questions": 1819,
+      "source": "/home/claude/data/KazQAD/data/reading-comprehension/kazqad-reading-comprehension-v1.0-kk-test.jsonl",
+      "sha256": "9bcf199095c745b14a8e4af704d488313720e51c7d476ebc9f4d97441fa29d36",
+      "cross_group_shared_questions_removed": 0
+    },
+    "translated": {
+      "raw_rows": 61606,
+      "outside_context_word_range": 6699,
+      "repeated_question": 515,
+      "missing_fields_or_answers": 3,
+      "eligible_unique_questions": 54389,
+      "source": "/home/claude/data/KazQAD/data/supplementary/nq-translate-kk/nq-reading-comprehension-translate-kk.jsonl.gz",
+      "sha256": "45ab687fef15758a91829d3bbf1f2e20e7d16cb4033b5443e752a57c295cd28b",
+      "cross_group_shared_questions_removed": 0
+    }
+  },
+  "selected_sha256": "c39f602442bf4ba176bb4e6afe787f3cf8ed3ce6d6e4c2310690c787ee7bc495"
+}

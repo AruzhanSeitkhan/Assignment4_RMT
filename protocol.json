@@ -1,0 +1,31 @@
+{
+  "protocol_version": "assignment-4-freeze-v1",
+  "research_question": "How does the accuracy of one selected open-source LLM differ between original Kazakh and machine-translated Kazakh question-answering datasets?",
+  "data": {
+    "repository": "https://github.com/IS2AI/KazQAD",
+    "commit": "ab8684a667109f2a7345f4f89ab3b123e8d78e1f",
+    "test_file": "results_main/selected.json",
+    "test_items": 200,
+    "items_per_group": 100,
+    "test_sha256": "049831f61160d3657d4eed27548fcf3c5007ade588804982402142bae11b6eb5",
+    "pilot_items_excluded": 10
+  },
+  "primary_metric": "exact_match",
+  "secondary_metrics": ["token_f1", "answer_containment"],
+  "conditions": {
+    "lexical": {"role": "simple baseline", "description": "IDF-weighted sliding-window span selection (group_analysis.baseline_answer, max_len=4, window=6)"},
+    "xlmr": {"role": "strong literature baseline", "model": "deepset/xlm-roberta-large-squad2", "revision": "resolved at run time and recorded", "max_answer_len": 30, "handle_impossible_answer": false},
+    "qwen_open": {"role": "primary condition", "model": "Qwen/Qwen2.5-1.5B-Instruct", "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306", "prompt": "qa_compare.SYSTEM", "decoding": "greedy", "max_new_tokens": 64},
+    "qwen_closed": {"role": "ablation (passage removed)", "model": "Qwen/Qwen2.5-1.5B-Instruct", "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306", "system": "Сұраққа қысқа жауап бер. Түсіндірме қоспа.", "decoding": "greedy", "max_new_tokens": 64}
+  },
+  "runs": "one deterministic run per condition (greedy / argmax); uncertainty by 2,000-sample bootstrap, seed 42",
+  "hypotheses": {
+    "H1": "Qwen open-book exact-match probability differs between original and translated items (two-sided Fisher exact test, alpha 0.05).",
+    "H2": "The Qwen original-minus-translated token-F1 gap differs from the lexical-baseline gap (bootstrap 95% CI of the difference-in-differences excludes 0).",
+    "H3": "With the passage removed, Qwen scores higher on translated (Natural Questions) items than on original (UNT) items (one-sided reading of the bootstrap CI of the closed-book F1 gap: CI entirely below 0)."
+  },
+  "method_comparisons": "Within each group, McNemar exact test on per-item EM for qwen_open vs xlmr, qwen_open vs lexical, xlmr vs lexical; Holm correction over the 6 tests.",
+  "additional_analyses": ["error analysis: 30 randomly sampled qwen_open EM=0 items per group (seed 42), manually coded by two members, Cohen's kappa", "ablation: qwen_closed", "subgroup: answer type and passage-length bin", "sensitivity: EM vs containment vs F1; excluding auto-flagged items", "efficiency: seconds per item per condition"],
+  "alpha": 0.05,
+  "seed": 42
+}
